@@ -3,15 +3,20 @@ on: [push, workflow_dispatch]
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: final-project/pitcher
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
           channel: 'stable'
+          # You can try '3.24.0' if 'stable' causes issues with this specific project
       - run: flutter pub get
       - run: flutter build apk --release
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
+          # Note the full path to the built file
+          path: final-project/pitcher/build/app/outputs/flutter-apk/app-release.apk
